@@ -79,6 +79,11 @@ BEGIN_MESSAGE_MAP(CFileNameDlg, CDialogEx)
 	ON_WM_CLOSE()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_EN_CHANGE(edit_Path, &CFileNameDlg::OnEnChangePath)
+	ON_BN_CLICKED(IDC_CHECK1, &CFileNameDlg::OnBnClickedCheck1)
+	ON_BN_CLICKED(btn_Browse2, &CFileNameDlg::OnBnClickedBrowse2)
+	ON_BN_CLICKED(IDOK, &CFileNameDlg::OnBnClickedOk)
+	ON_BN_CLICKED(btn_Browse, &CFileNameDlg::OnBnClickedBrowse)
 END_MESSAGE_MAP()
 
 
@@ -205,3 +210,39 @@ BOOL CFileNameDlg::CanExit()
 	return TRUE;
 }
 
+
+
+void CFileNameDlg::OnEnChangePath()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialogEx::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void CFileNameDlg::OnBnClickedCheck1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CFileNameDlg::OnBnClickedBrowse2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CFileNameDlg::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnOK();
+}
+
+
+void CFileNameDlg::OnBnClickedBrowse()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}

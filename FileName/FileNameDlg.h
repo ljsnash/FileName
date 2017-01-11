@@ -43,4 +43,10 @@ protected:
 	virtual void OnOK();
 	virtual void OnCancel();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnEnChangePath();
+	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnBnClickedBrowse2();
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedBrowse();
 };
