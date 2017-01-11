@@ -7,6 +7,13 @@
 #include "FileNameDlg.h"
 #include "DlgProxy.h"
 #include "afxdialogex.h"
+#include"FolderPath.h"
+#include"ImportFile.h"
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<stdlib.h>
+#include<io.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,6 +79,17 @@ CFileNameDlg::~CFileNameDlg()
 void CFileNameDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, edit_Path, m_edit_Path);
+	DDX_Control(pDX, btn_Browse, m_btn_Browse);
+	DDX_Control(pDX, edit_Path2, m_edit_Path2);
+	DDX_Control(pDX, btn_Browse2, m_btn_Browse2);
+	DDX_Control(pDX, IDC_RADIO7, m_radio7);
+	DDX_Control(pDX, IDC_RADIO9, m_radio9);
+	DDX_Control(pDX, IDC_CHECK2, m_check2);
+	DDX_Control(pDX, IDC_CHECK3, m_check3);
+	DDX_Control(pDX, IDC_CHECK4, m_check4);
+	DDX_Control(pDX, IDC_CHECK5, m_check5);
+	DDX_Control(pDX, edit_Type, m_edit_Type);
 }
 
 BEGIN_MESSAGE_MAP(CFileNameDlg, CDialogEx)
@@ -84,6 +102,13 @@ BEGIN_MESSAGE_MAP(CFileNameDlg, CDialogEx)
 	ON_BN_CLICKED(btn_Browse2, &CFileNameDlg::OnBnClickedBrowse2)
 	ON_BN_CLICKED(IDOK, &CFileNameDlg::OnBnClickedOk)
 	ON_BN_CLICKED(btn_Browse, &CFileNameDlg::OnBnClickedBrowse)
+	ON_BN_CLICKED(IDC_RADIO1, &CFileNameDlg::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2, &CFileNameDlg::OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO7, &CFileNameDlg::OnBnClickedRadio7)
+	ON_BN_CLICKED(IDC_RADIO9, &CFileNameDlg::OnBnClickedRadio9)
+	ON_BN_CLICKED(IDC_RADIO6, &CFileNameDlg::OnBnClickedRadio6)
+	ON_BN_CLICKED(IDC_RADIO5, &CFileNameDlg::OnBnClickedRadio5)
+	ON_BN_CLICKED(IDC_CHECK5, &CFileNameDlg::OnBnClickedCheck5)
 END_MESSAGE_MAP()
 
 
@@ -119,6 +144,16 @@ BOOL CFileNameDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	((CButton *)GetDlgItem(IDC_CHECK2))->SetCheck(1);
+	((CButton *)GetDlgItem(IDC_RADIO1))->SetCheck(1);
+	((CButton *)GetDlgItem(IDC_RADIO4))->SetCheck(1);
+	((CButton *)GetDlgItem(IDC_RADIO6))->SetCheck(1);
+	((CButton *)GetDlgItem(IDC_RADIO7))->SetCheck(1);
+	m_edit_Type.EnableWindow(FALSE);
+	m_edit_Path.EnableWindow(FALSE);
+	m_edit_Path2.EnableWindow(FALSE);
+	m_btn_Browse.EnableWindow(FALSE);
+	m_btn_Browse2.EnableWindow(FALSE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -226,23 +261,226 @@ void CFileNameDlg::OnEnChangePath()
 void CFileNameDlg::OnBnClickedCheck1()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	int i = ((CButton *)GetDlgItem(IDC_CHECK1))->GetCheck();
+	if (i == 1)
+	{
+		m_check2.EnableWindow(FALSE);
+		m_check3.EnableWindow(FALSE);
+		m_check4.EnableWindow(FALSE);
+		m_check5.EnableWindow(FALSE);
+		m_edit_Type.EnableWindow(FALSE);
+	}
+	else
+	{
+		m_check2.EnableWindow(TRUE);
+		m_check3.EnableWindow(TRUE);
+		m_check4.EnableWindow(TRUE);
+		m_check5.EnableWindow(TRUE);
+		m_edit_Type.EnableWindow(TRUE);
+	}
+
 }
 
 
 void CFileNameDlg::OnBnClickedBrowse2()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	FolderPath *path = new FolderPath("请选择学生作业所在文件夹");
+	CString str_FolderPath = path->setFolderPath();
+	delete path;
+	if (str_FolderPath != "")SetDlgItemText(edit_Path2, str_FolderPath);
 }
 
 
 void CFileNameDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CDialogEx::OnOK();
+	CString str_path;
+	int i;
+	i = ((CButton *)GetDlgItem(IDC_RADIO1))->GetCheck();
+	if (i == 1)
+	{
+		str_path = ".";
+	}
+	else
+	{
+		GetDlgItemText(edit_Path, str_path);
+	}
+	//文件夹位置
+	CString str_path2;
+	int j;
+	i = ((CButton *)GetDlgItem(IDC_RADIO7))->GetCheck();
+	j = ((CButton *)GetDlgItem(IDC_RADIO6))->GetCheck();
+	if ((i == 1)||(j==1))
+	{
+		str_path2 = ".";
+	}
+	else
+	{
+		GetDlgItemText(edit_Path2, str_path2);
+	}
+	//输出位置
+	bool behind;
+	i = ((CButton *)GetDlgItem(IDC_RADIO4))->GetCheck();
+	if (i == 1)
+	{
+		behind = false;
+	}
+	else
+	{
+		behind = true;
+	}
+	//后缀名
+	CString str_file;
+	str_file = str_path2 + "\\" + "文件名.txt";
+	ofstream _file;
+	_file.open(str_file, ios::trunc);
+	_file.close();
+	ImportFile *import = new ImportFile(str_file);
+	i = ((CButton *)GetDlgItem(IDC_CHECK1))->GetCheck();
+	if (i == 1)
+	{
+		import->GetAllFile(str_path, "*", behind);
+	}
+	else
+	{
+		if(((CButton *)GetDlgItem(IDC_CHECK2))->GetCheck()==1)
+		{ 
+			import->GetAllFile(str_path, "caj", behind);
+		}
+		if (((CButton *)GetDlgItem(IDC_CHECK3))->GetCheck() == 1)
+		{
+			import->GetAllFile(str_path, "pdf", behind);
+		}
+		if (((CButton *)GetDlgItem(IDC_CHECK4))->GetCheck() == 1)
+		{
+			import->GetAllFile(str_path, "doc", behind);
+			import->GetAllFile(str_path, "docx", behind);
+		}
+		CString temp;
+		GetDlgItemText(edit_Type, temp);
+		while (temp != "")
+		{
+			int k;
+			CString temp2;
+			k=temp.Find(";");
+			if (k == -1)
+			{
+				import->GetAllFile(str_path, temp, behind);
+				break;
+			}
+			
+			temp2 = temp.Left(k);
+			import->GetAllFile(str_path, temp2, behind);
+			temp = temp.Mid(k + 1);
+		}
+	}
+	delete import;
+
+	SHELLEXECUTEINFO ShExecInfo = { 0 };
+	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	ShExecInfo.hwnd = NULL;
+	ShExecInfo.lpVerb = NULL;
+	ShExecInfo.lpFile = str_file;
+	ShExecInfo.lpParameters = "";
+	ShExecInfo.lpDirectory = NULL;
+	ShExecInfo.nShow = SW_SHOW;
+	ShExecInfo.hInstApp = NULL;
+	ShellExecuteEx(&ShExecInfo);
+	WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
+
+	if (j == 1)
+	{
+		remove(str_file);
+	}
+
 }
 
 
 void CFileNameDlg::OnBnClickedBrowse()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	FolderPath *path = new FolderPath("请选择学生作业所在文件夹");
+	CString str_FolderPath = path->setFolderPath();
+	delete path;
+	if (str_FolderPath != "")SetDlgItemText(edit_Path, str_FolderPath);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_edit_Path.EnableWindow(FALSE);
+	m_btn_Browse.EnableWindow(FALSE);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_edit_Path.EnableWindow(TRUE);
+	m_btn_Browse.EnableWindow(TRUE);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio7()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_edit_Path2.EnableWindow(FALSE);
+	m_btn_Browse2.EnableWindow(FALSE);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio9()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_edit_Path2.EnableWindow(TRUE);
+	m_btn_Browse2.EnableWindow(TRUE);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio6()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	m_edit_Path2.EnableWindow(FALSE);
+	m_btn_Browse2.EnableWindow(FALSE);
+	m_radio7.EnableWindow(FALSE);
+	m_radio9.EnableWindow(FALSE);
+}
+
+
+void CFileNameDlg::OnBnClickedRadio5()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_radio7.EnableWindow(TRUE);
+	m_radio9.EnableWindow(TRUE);
+	int i=((CButton *)GetDlgItem(IDC_RADIO7))->GetCheck();
+	if (i == 1)
+	{
+		m_edit_Path2.EnableWindow(FALSE);
+		m_btn_Browse2.EnableWindow(FALSE);
+	}
+	else
+	{
+		m_edit_Path2.EnableWindow(TRUE);
+		m_btn_Browse2.EnableWindow(TRUE);		
+	}
+	
+}
+
+
+void CFileNameDlg::OnBnClickedCheck5()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	int i = ((CButton *)GetDlgItem(IDC_CHECK5))->GetCheck();
+	if (i == 1)
+	{
+		m_edit_Type.EnableWindow(TRUE);
+	}
+	else
+	{
+		m_edit_Type.EnableWindow(FALSE);
+	}
 }

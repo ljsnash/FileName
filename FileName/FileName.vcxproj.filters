@@ -36,6 +36,12 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FolderPath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileName.cpp">

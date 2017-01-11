@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxwin.h"
 
 class CFileNameDlgAutoProxy;
 
@@ -49,4 +50,22 @@ public:
 	afx_msg void OnBnClickedBrowse2();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedBrowse();
+	afx_msg void OnBnClickedRadio1();
+	CEdit m_edit_Path;
+	CButton m_btn_Browse;
+	afx_msg void OnBnClickedRadio2();
+	CEdit m_edit_Path2;
+	CButton m_btn_Browse2;
+	afx_msg void OnBnClickedRadio7();
+	afx_msg void OnBnClickedRadio9();
+	afx_msg void OnBnClickedRadio6();
+	CButton m_radio7;
+	CButton m_radio9;
+	afx_msg void OnBnClickedRadio5();
+	CButton m_check2;
+	CButton m_check3;
+	CButton m_check4;
+	CButton m_check5;
+	CEdit m_edit_Type;
+	afx_msg void OnBnClickedCheck5();
 };
