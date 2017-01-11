@@ -1,0 +1,29 @@
+// FileName.idl : FileName.exe 的类型库源
+
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(FileName.tlb)。
+
+[ uuid(15F4050E-0119-4AD7-9161-771263ABB363), version(1.0) ]
+library FileName
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  CFileNameDoc 的主调度接口
+	
+	[ uuid(5C1DE705-C397-44B1-A140-2947147D6EBA) ]
+	dispinterface IFileName
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  CFileNameDoc 的类信息
+	
+	[ uuid(1BDDFF32-E9C1-478C-A710-B8DA6AD43D3C) ]
+	coclass FileName
+	{
+		[default] dispinterface IFileName;
+	};
+};
