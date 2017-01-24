@@ -147,7 +147,7 @@ BOOL CFileNameDlg::OnInitDialog()
 	((CButton *)GetDlgItem(IDC_CHECK2))->SetCheck(1);
 	((CButton *)GetDlgItem(IDC_RADIO1))->SetCheck(1);
 	((CButton *)GetDlgItem(IDC_RADIO4))->SetCheck(1);
-	((CButton *)GetDlgItem(IDC_RADIO6))->SetCheck(1);
+	((CButton *)GetDlgItem(IDC_RADIO5))->SetCheck(1);
 	((CButton *)GetDlgItem(IDC_RADIO7))->SetCheck(1);
 	m_edit_Type.EnableWindow(FALSE);
 	m_edit_Path.EnableWindow(FALSE);
